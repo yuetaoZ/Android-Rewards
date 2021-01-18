@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Rewards</string>
+    <string name="login_background">login_background</string>
 </resources>
