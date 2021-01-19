@@ -3,4 +3,10 @@
     <string name="login_background">login_background</string>
     <string name="logo">logo</string>
     <string name="name_image">name_image</string>
+    <string name="Username">Username</string>
+    <string name="Password">Password</string>
+    <string name="Login">LOGIN</string>
+    <string name="CheckBox">Remember my credentials</string>
+    <string name="createProfile">Tap here to create a profile</string>
+    <string name="clearSavedAPI">Tap to clear saved API Key</string>
 </resources>
