@@ -9,4 +9,8 @@
     <string name="CheckBox">Remember my credentials</string>
     <string name="createProfile">Tap here to create a profile</string>
     <string name="clearSavedAPI">Tap to clear saved API Key</string>
+    <string name="studentEmail">Student Email (.edu)</string>
+    <string name="firstname">First Name</string>
+    <string name="lastname">Last Name</string>
+    <string name="studentID">Student Id Number</string>
 </resources>
