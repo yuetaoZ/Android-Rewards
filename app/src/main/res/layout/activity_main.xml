@@ -132,7 +132,7 @@
         app:layout_constraintVertical_bias="0.8" />
 
     <Button
-        android:id="@+id/createProfileButton2"
+        android:id="@+id/clearAPIKeyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
