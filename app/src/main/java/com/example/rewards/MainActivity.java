@@ -98,12 +98,16 @@ public class MainActivity extends AppCompatActivity {
             String email = APIStdEmail.trim();
             String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\." + "edu";
             if (email.matches(emailPattern)) {
-                saveData();
-                showAPISuccessDialog();
+                requestAPIKey();
             } else {
                 showWrongEmailDialog();
             }
         }
+    }
+
+    private void requestAPIKey() {
+        APILoaderRunnable alr = new APILoaderRunnable(this, APIFirstName, APILastName, APIStdID, APIStdEmail);
+        new Thread(alr).start();
     }
 
     private void showMissingDataDialog() {
@@ -130,14 +134,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showAPISuccessDialog() {
+
         String nameString = APIFirstName.substring(0, 1).toUpperCase() + APIFirstName.substring(1).toLowerCase() + " " +
                 APILastName.substring(0, 1).toUpperCase() + APILastName.substring(1).toLowerCase();
         new AlertDialog.Builder(this)
                 .setTitle("API Key Received and Stored")
                 .setMessage("Name: " + nameString + "\n" +
                             "StudentID: " + APIStdID + "\n" +
-                            "Email: " +APIStdEmail + "\n" +
-                            "API Key: " + "api key...")
+                            "Email: " + APIStdEmail + "\n" +
+                            "API Key: " + APIKey)
                 .setIcon(R.drawable.logo)
                 .setPositiveButton("OK", null)
                 .show();
@@ -180,5 +185,11 @@ public class MainActivity extends AppCompatActivity {
         APIStdID = "";
         APIKey = "";
         saveData();
+    }
+
+    public void updateAPIKey(String apiKey) {
+        APIKey = apiKey;
+        saveData();
+        showAPISuccessDialog();
     }
 }
