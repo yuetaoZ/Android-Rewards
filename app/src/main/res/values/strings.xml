@@ -22,4 +22,18 @@
     <string name="profileLastName">Last Name</string>
     <string name="storyTitle">Your Story:</string>
     <string name="profileImage">profileImage</string>
+    <string name="rewardName">Reward Name</string>
+    <string name="pointsAwarded">Points</string>
+    <string name="pointsAwardedTitle">Points Awarded:</string>
+    <string name="rewardDepartmentTitle">Department:</string>
+    <string name="rewardImage">rewardImage</string>
+    <string name="rewardSendPoint">Points</string>
+    <string name="rewardStory">Story</string>
+    <string name="rewardComment">Add comment for some one</string>
+    <string name="rewardSendTitle">Reward points to send:</string>
+    <string name="rewardCommentTitle">Comment:</string>
+    <string name="rewardStoryTitle">Your Story:</string>
+    <string name="rewardPositionTitle">Position:</string>
+    <string name="rewardDepartment">department</string>
+    <string name="rewardPosition">position</string>
 </resources>
