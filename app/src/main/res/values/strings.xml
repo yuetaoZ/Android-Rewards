@@ -13,4 +13,13 @@
     <string name="firstname">First Name</string>
     <string name="lastname">Last Name</string>
     <string name="studentID">Student Id Number</string>
+    <string name="selectUserName">Select Username</string>
+    <string name="departmentName">Department Name</string>
+    <string name="positionTitle">Position Title</string>
+    <string name="storyContent">Tell us something about yourself!</string>
+    <string name="selectPassword">Select Password</string>
+    <string name="profileFirstName">First Name</string>
+    <string name="profileLastName">Last Name</string>
+    <string name="storyTitle">Your Story:</string>
+    <string name="profileImage">profileImage</string>
 </resources>
