@@ -1,5 +1,6 @@
 package com.example.rewards;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String EXTRA_APIKEY = "";
     private String APIFirstName = "";
     private String APILastName = "";
     private String APIStdID = "";
@@ -37,7 +39,22 @@ public class MainActivity extends AppCompatActivity {
 
         setupActionBar();
         setupClearAPIKeyButton();
+        setupCreateProfileButton();
         setupAPI_Dialog();
+    }
+
+    private void setupCreateProfileButton() {
+        Button createProfileButton = findViewById(R.id.createProfileButton);
+        createProfileButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, CreateProfileActivity.class);
+            loadData();
+            if (APIKey.equals("")) {
+                setupAPI_Dialog();
+            } else {
+                intent.putExtra(EXTRA_APIKEY, APIKey);
+                startActivity(intent);
+            }
+        });
     }
 
     private void setupClearAPIKeyButton() {
@@ -106,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void requestAPIKey() {
-        APILoaderRunnable alr = new APILoaderRunnable(this, APIFirstName, APILastName, APIStdID, APIStdEmail);
+        GetStudentApiKeyRunnable alr = new GetStudentApiKeyRunnable(this, APIFirstName, APILastName, APIStdID, APIStdEmail);
         new Thread(alr).start();
     }
 

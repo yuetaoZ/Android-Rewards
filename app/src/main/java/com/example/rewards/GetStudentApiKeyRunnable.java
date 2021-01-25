@@ -1,7 +1,6 @@
 package com.example.rewards;
 
 import android.net.Uri;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,7 +11,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class APILoaderRunnable implements Runnable {
+public class GetStudentApiKeyRunnable implements Runnable {
 
     private final MainActivity mainActivity;
 
@@ -20,12 +19,12 @@ public class APILoaderRunnable implements Runnable {
 
     private static String firstName, lastName, studentID, email;
 
-    public APILoaderRunnable(MainActivity mainActivity, String firstName, String lastName, String studentID, String email) {
+    public GetStudentApiKeyRunnable(MainActivity mainActivity, String firstName, String lastName, String studentID, String email) {
         this.mainActivity = mainActivity;
-        APILoaderRunnable.firstName = firstName;
-        APILoaderRunnable.lastName = lastName;
-        APILoaderRunnable.studentID = studentID;
-        APILoaderRunnable.email = email;
+        GetStudentApiKeyRunnable.firstName = firstName;
+        GetStudentApiKeyRunnable.lastName = lastName;
+        GetStudentApiKeyRunnable.studentID = studentID;
+        GetStudentApiKeyRunnable.email = email;
     }
 
     @Override

@@ -15,6 +15,9 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.Rewards"
         tools:targetApi="m">
+        <activity android:name=".CreateProfileActivity"
+            android:parentActivityName=".MainActivity">
+        </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
