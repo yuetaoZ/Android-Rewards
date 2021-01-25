@@ -94,43 +94,55 @@ public class CreateProfileActivity extends AppCompatActivity {
         EditText selectUserName = findViewById(R.id.selectUsername);
         String strSelectUserName = selectUserName.getText().toString();
 
-        if(TextUtils.isEmpty(strSelectUserName)) {
+        if (TextUtils.isEmpty(strSelectUserName)) {
             selectUserName.setError("This item can not be empty.");
+        } else if (strSelectUserName.length() > 20) {
+            selectUserName.setError("This item can not be longer than 20 character.");
         }
 
         EditText selectUPassword = findViewById(R.id.selectPassword);
         String strSelectUPassword = selectUPassword.getText().toString();
 
-        if(TextUtils.isEmpty(strSelectUPassword)) {
+        if (TextUtils.isEmpty(strSelectUPassword)) {
             selectUPassword.setError("This item can not be empty.");
+        } else if (strSelectUPassword.length() > 40) {
+            selectUPassword.setError("This item can not be longer than 40 character.");
         }
 
         EditText profileFirstName = findViewById(R.id.profileFirstName);
         String strProfileFirstName = profileFirstName.getText().toString();
 
-        if(TextUtils.isEmpty(strProfileFirstName)) {
+        if (TextUtils.isEmpty(strProfileFirstName)) {
             profileFirstName.setError("This item can not be empty.");
+        } else if (strProfileFirstName.length() > 20) {
+            profileFirstName.setError("This item can not be longer than 20 character.");
         }
 
         EditText profileLastName = findViewById(R.id.profileLastName);
         String strProfileLastName = profileLastName.getText().toString();
 
-        if(TextUtils.isEmpty(strProfileLastName)) {
+        if (TextUtils.isEmpty(strProfileLastName)) {
             profileLastName.setError("This item can not be empty.");
+        } else if (strProfileLastName.length() > 20) {
+            profileLastName.setError("This item can not be longer than 20 character.");
         }
 
         EditText departmentName = findViewById(R.id.departmentName);
         String strDepartmentName = departmentName.getText().toString();
 
-        if(TextUtils.isEmpty(strDepartmentName)) {
+        if (TextUtils.isEmpty(strDepartmentName)) {
             departmentName.setError("This item can not be empty.");
+        } else if (strDepartmentName.length() > 30) {
+            departmentName.setError("This item can not be longer than 30 character.");
         }
 
         EditText positionTitle = findViewById(R.id.positionTitle);
         String strPositionTitle = positionTitle.getText().toString();
 
-        if(TextUtils.isEmpty(strPositionTitle)) {
+        if (TextUtils.isEmpty(strPositionTitle)) {
             positionTitle.setError("This item can not be empty.");
+        } else if (strPositionTitle.length() > 20) {
+            positionTitle.setError("This item can not be longer than 20 character.");
         }
 
     }
