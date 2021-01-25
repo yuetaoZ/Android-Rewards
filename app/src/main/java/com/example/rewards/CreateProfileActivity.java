@@ -21,6 +21,7 @@ public class CreateProfileActivity extends AppCompatActivity {
     private static final int REQUEST_CODE = 1;
     private static final String TAG = "myApp Rewards";
     private Bitmap bitmap;
+    private static String locationString = "Unspecified Location";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
