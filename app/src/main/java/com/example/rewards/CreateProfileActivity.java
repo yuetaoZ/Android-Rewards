@@ -6,9 +6,11 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -85,6 +87,51 @@ public class CreateProfileActivity extends AppCompatActivity {
     }
 
     private void saveProfile() {
+        validateInputs();
+    }
+
+    private void validateInputs() {
+        EditText selectUserName = findViewById(R.id.selectUsername);
+        String strSelectUserName = selectUserName.getText().toString();
+
+        if(TextUtils.isEmpty(strSelectUserName)) {
+            selectUserName.setError("This item can not be empty.");
+        }
+
+        EditText selectUPassword = findViewById(R.id.selectPassword);
+        String strSelectUPassword = selectUPassword.getText().toString();
+
+        if(TextUtils.isEmpty(strSelectUPassword)) {
+            selectUPassword.setError("This item can not be empty.");
+        }
+
+        EditText profileFirstName = findViewById(R.id.profileFirstName);
+        String strProfileFirstName = profileFirstName.getText().toString();
+
+        if(TextUtils.isEmpty(strProfileFirstName)) {
+            profileFirstName.setError("This item can not be empty.");
+        }
+
+        EditText profileLastName = findViewById(R.id.profileLastName);
+        String strProfileLastName = profileLastName.getText().toString();
+
+        if(TextUtils.isEmpty(strProfileLastName)) {
+            profileLastName.setError("This item can not be empty.");
+        }
+
+        EditText departmentName = findViewById(R.id.departmentName);
+        String strDepartmentName = departmentName.getText().toString();
+
+        if(TextUtils.isEmpty(strDepartmentName)) {
+            departmentName.setError("This item can not be empty.");
+        }
+
+        EditText positionTitle = findViewById(R.id.positionTitle);
+        String strPositionTitle = positionTitle.getText().toString();
+
+        if(TextUtils.isEmpty(strPositionTitle)) {
+            positionTitle.setError("This item can not be empty.");
+        }
 
     }
 }
