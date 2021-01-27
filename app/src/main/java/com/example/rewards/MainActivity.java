@@ -3,9 +3,14 @@ package com.example.rewards;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -14,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "myApp";
     public static final String EXTRA_APIKEY = "";
     private String APIFirstName = "";
     private String APILastName = "";
@@ -23,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean APIKeySaved = false;
     private AlertDialog API_dialog;
 
+    private static final String USERNAME = "username";
+    private static final String PASSWORD = "password";
     private static final String SHARED_PREFS = "sharedPrefs";
     private static final String FIRSTNAME = "firstName";
     private static final String LASTNAME = "lastName";
@@ -31,10 +39,9 @@ public class MainActivity extends AppCompatActivity {
     private static final String APIKEY = "studentAPIKey";
     private static final String APIKEY_SAVED = "APIKEYSaved";
 
-
-    public static void loginWithProfile(String toString) {
+    public static void loginWithProfile(String s) {
+        Log.d(TAG, "Login Result: " + s);
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
         setupClearAPIKeyButton();
         setupCreateProfileButton();
         setupAPI_Dialog();
+        setupLoginButton();
+        setupRememberCredentialCheckBox();
+        setupTextWatcherForEditTexts();
     }
 
     private void setupCreateProfileButton() {
@@ -60,6 +70,86 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    private void setupLoginButton() {
+        Button loginButton = findViewById(R.id.loginButton);
+        loginButton.setOnClickListener(v -> {
+            EditText textUsername = findViewById(R.id.editTextUsername);
+            String username = textUsername.getText().toString();
+            EditText textPassword = findViewById(R.id.editTextPassword);
+            String password = textPassword.getText().toString();
+
+            Profile profile = new Profile();
+            profile.setUserName(username);
+            profile.setPassword(password);
+
+            LoginAPIRunnable loginAPIRunnable = new LoginAPIRunnable(this, profile, APIKey);
+            new Thread(loginAPIRunnable).start();
+        });
+    }
+
+
+    private void setupRememberCredentialCheckBox() {
+        CheckBox chk = findViewById(R.id.rememberCredentialsCheckBox);
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        boolean checkedState = sharedPreferences.getBoolean("checkedState", false);
+        chk.setChecked(checkedState);
+
+        EditText textUsername = findViewById(R.id.editTextUsername);
+        EditText textPassword = findViewById(R.id.editTextPassword);
+
+        if (checkedState) {
+            textUsername.setText(sharedPreferences.getString(USERNAME, ""));
+            textPassword.setText(sharedPreferences.getString(PASSWORD, ""));
+        } else {
+            textUsername.setText("");
+            textPassword.setText("");
+        }
+
+        chk.setOnClickListener(v -> {
+            boolean checked = ((CheckBox) v).isChecked();
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("checkedState", checked);
+            editor.apply();
+        });
+    }
+
+    private void setupTextWatcherForEditTexts() {
+        final EditText Eusername = findViewById(R.id.editTextUsername);
+        Eusername.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString(USERNAME, Eusername.getText().toString());
+                editor.apply();
+            }
+        });
+        final EditText Epassword = findViewById(R.id.editTextPassword);
+        Epassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString(PASSWORD, Epassword.getText().toString());
+                editor.apply();
+            }
+        });
+    }
+
 
     private void setupClearAPIKeyButton() {
         Button clearAPIKeyBtn = findViewById(R.id.clearAPIKeyButton);

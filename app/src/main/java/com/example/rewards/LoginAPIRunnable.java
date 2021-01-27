@@ -51,7 +51,7 @@ public class LoginAPIRunnable implements Runnable {
             Log.d(TAG, "responseCode: " + responseCode);
             StringBuilder result = new StringBuilder();
 
-            if (responseCode == HttpURLConnection.HTTP_CREATED) {
+            if (responseCode == HttpURLConnection.HTTP_OK) {
                 reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
                 String line;
@@ -66,7 +66,7 @@ public class LoginAPIRunnable implements Runnable {
                     result.append(line).append("\n");
                 }
             }
-            Log.d(TAG, "run: get result:" + result.toString());
+
             MainActivity.loginWithProfile(result.toString());
         } catch (Exception e) {
             e.printStackTrace();
