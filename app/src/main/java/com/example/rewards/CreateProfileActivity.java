@@ -3,10 +3,12 @@ package com.example.rewards;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,13 +17,16 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Objects;
 
 public class CreateProfileActivity extends AppCompatActivity {
     private static final int REQUEST_CODE = 1;
     private static final String TAG = "myApp Rewards";
-    private Bitmap bitmap;
-    private static String locationString = "Unspecified Location";
+    private static Bitmap bitmap;
+    private static String apiKey, strSelectUserName, strSelectUPassword, strProfileFirstName,
+            strProfileLastName, strDepartmentName, strPositionTitle, strStoryContent;
+    private static final String locationString = "Unspecified Location";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +34,7 @@ public class CreateProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_profile);
 
         Intent intent = getIntent();
-        String apiKey = intent.getStringExtra(MainActivity.EXTRA_APIKEY);
+        apiKey = intent.getStringExtra(MainActivity.EXTRA_APIKEY);
 
         setupClickForImageView();
 
@@ -58,7 +63,7 @@ public class CreateProfileActivity extends AppCompatActivity {
                     int hit = profileImage.getHeight();
                     bitmap = Bitmap.createScaledBitmap(bitmap, wid, hit, false);
                     profileImage.setImageBitmap(bitmap);
-                    Log.w(TAG, "setImage");
+                    Log.i(TAG, "setImage");
                 } else if (resultCode == Activity.RESULT_CANCELED) {
                     Log.e(TAG, "Selecting picture cancelled");
                 }
@@ -88,63 +93,162 @@ public class CreateProfileActivity extends AppCompatActivity {
     }
 
     private void saveProfile() {
-        validateInputs();
+        if (validateInputs()) {
+            Profile profile = createProfile();
+            new Thread(new CreateProfileAPIRunnable(this, profile, apiKey)).start();
+        }
     }
 
-    private void validateInputs() {
+    public void showResults(final String s) {
+        Log.i(TAG, "showResults called");
+        runOnUiThread(() -> {
+            EditText storyContent = findViewById(R.id.storyContent);
+            if (s != null) {
+                Log.i(TAG, "return string:" + s);
+                storyContent.setText(s.length());
+            } else {
+                storyContent.setText(s);
+            }
+        });
+    }
+
+    private Profile createProfile() {
+        Profile profile = new Profile();
+        profile.setUserName(strSelectUserName);
+        profile.setPassword(strSelectUPassword);
+        profile.setFirstName(strProfileFirstName);
+        profile.setLastName(strProfileLastName);
+        profile.setDepartment(strDepartmentName);
+        profile.setPosition(strPositionTitle);
+        profile.setStory(strStoryContent);
+        if (bitmap == null) setDefaultPicture();
+        profile.setImageBytes(compressToBase64(bitmap));
+        profile.setLocation(locationString);
+        Log.i(TAG, "createProfile");
+        return profile;
+    }
+
+    private void setDefaultPicture() {
+        ImageView profileImage = findViewById(R.id.profileImage);
+        profileImage.invalidate();
+        BitmapDrawable drawable = (BitmapDrawable) profileImage.getDrawable();
+        bitmap = drawable.getBitmap();
+    }
+
+    private String compressToBase64(Bitmap bitmap) {
+        String imageString64;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 80, baos);
+        byte[] byteArray = baos.toByteArray();
+        imageString64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+        while (imageString64.length() > 100000) {
+            int qualityRate = 1/(imageString64.length() / 100000) * 90;
+            bitmap.compress(Bitmap.CompressFormat.PNG, qualityRate, baos);
+            byteArray = baos.toByteArray();
+            imageString64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
+        }
+
+        return imageString64;
+    }
+
+
+    private boolean validateInputs() {
+        boolean checkUsername, checkPassword, checkFirstname, checkLastname, checkDepartment,
+                checkPosition, checkStoryContent;
         EditText selectUserName = findViewById(R.id.selectUsername);
-        String strSelectUserName = selectUserName.getText().toString();
+        strSelectUserName = selectUserName.getText().toString();
 
         if (TextUtils.isEmpty(strSelectUserName)) {
             selectUserName.setError("This item can not be empty.");
+            checkUsername = false;
         } else if (strSelectUserName.length() > 20) {
             selectUserName.setError("This item can not be longer than 20 character.");
+            checkUsername = false;
+        } else {
+            checkUsername = true;
         }
 
         EditText selectUPassword = findViewById(R.id.selectPassword);
-        String strSelectUPassword = selectUPassword.getText().toString();
+        strSelectUPassword = selectUPassword.getText().toString();
 
         if (TextUtils.isEmpty(strSelectUPassword)) {
             selectUPassword.setError("This item can not be empty.");
+            checkPassword = false;
         } else if (strSelectUPassword.length() > 40) {
             selectUPassword.setError("This item can not be longer than 40 character.");
+            checkPassword = false;
+        } else {
+            checkPassword = true;
         }
 
         EditText profileFirstName = findViewById(R.id.profileFirstName);
-        String strProfileFirstName = profileFirstName.getText().toString();
+        strProfileFirstName = profileFirstName.getText().toString();
 
         if (TextUtils.isEmpty(strProfileFirstName)) {
             profileFirstName.setError("This item can not be empty.");
+            checkFirstname = false;
         } else if (strProfileFirstName.length() > 20) {
             profileFirstName.setError("This item can not be longer than 20 character.");
+            checkFirstname = false;
+        } else {
+            checkFirstname = true;
         }
 
         EditText profileLastName = findViewById(R.id.profileLastName);
-        String strProfileLastName = profileLastName.getText().toString();
+        strProfileLastName = profileLastName.getText().toString();
 
         if (TextUtils.isEmpty(strProfileLastName)) {
             profileLastName.setError("This item can not be empty.");
+            checkLastname = false;
         } else if (strProfileLastName.length() > 20) {
             profileLastName.setError("This item can not be longer than 20 character.");
+            checkLastname = false;
+        } else {
+            checkLastname = true;
         }
 
         EditText departmentName = findViewById(R.id.departmentName);
-        String strDepartmentName = departmentName.getText().toString();
+        strDepartmentName = departmentName.getText().toString();
 
         if (TextUtils.isEmpty(strDepartmentName)) {
             departmentName.setError("This item can not be empty.");
+            checkDepartment = false;
         } else if (strDepartmentName.length() > 30) {
             departmentName.setError("This item can not be longer than 30 character.");
+            checkDepartment = false;
+        } else {
+            checkDepartment = true;
         }
 
         EditText positionTitle = findViewById(R.id.positionTitle);
-        String strPositionTitle = positionTitle.getText().toString();
+        strPositionTitle = positionTitle.getText().toString();
 
         if (TextUtils.isEmpty(strPositionTitle)) {
             positionTitle.setError("This item can not be empty.");
+            checkPosition = false;
         } else if (strPositionTitle.length() > 20) {
             positionTitle.setError("This item can not be longer than 20 character.");
+            checkPosition = false;
+        } else {
+            checkPosition = true;
         }
 
+        EditText storyContent = findViewById(R.id.storyContent);
+        strStoryContent = storyContent.getText().toString();
+
+        if (TextUtils.isEmpty(strStoryContent)) {
+            storyContent.setError("This item can not be empty.");
+            checkStoryContent = false;
+        } else if (strPositionTitle.length() > 360) {
+            storyContent.setError("This item can not be longer than 360 character.");
+            checkStoryContent = false;
+        } else {
+            checkStoryContent = true;
+        }
+
+        return checkUsername && checkPassword && checkFirstname && checkLastname && checkDepartment &&
+                checkPosition && checkStoryContent;
     }
+
 }
