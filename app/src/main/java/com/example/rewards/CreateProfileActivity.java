@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.ByteArrayOutputStream;
@@ -63,7 +64,7 @@ public class CreateProfileActivity extends AppCompatActivity {
                     int hit = profileImage.getHeight();
                     bitmap = Bitmap.createScaledBitmap(bitmap, wid, hit, false);
                     profileImage.setImageBitmap(bitmap);
-                    Log.i(TAG, "setImage");
+                    Log.d(TAG, "setImage");
                 } else if (resultCode == Activity.RESULT_CANCELED) {
                     Log.e(TAG, "Selecting picture cancelled");
                 }
@@ -100,16 +101,19 @@ public class CreateProfileActivity extends AppCompatActivity {
     }
 
     public void showResults(final String s) {
+        String message;
+        if (s != null && s.length() > 100) {
+            message = s.substring(0, 300) + "...";
+        } else {
+            message = s;
+        }
         Log.i(TAG, "showResults called");
-        runOnUiThread(() -> {
-            EditText storyContent = findViewById(R.id.storyContent);
-            if (s != null) {
-                Log.i(TAG, "return string:" + s);
-                storyContent.setText(s.length());
-            } else {
-                storyContent.setText(s);
-            }
-        });
+        runOnUiThread(() -> new AlertDialog.Builder(this)
+                .setTitle("Create Profile")
+                .setMessage(message)
+                .setIcon(R.drawable.logo)
+                .setPositiveButton("OK", null)
+                .show());
     }
 
     private Profile createProfile() {

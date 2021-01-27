@@ -3,30 +3,22 @@ package com.example.rewards;
 import android.net.Uri;
 import android.util.Log;
 
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import static java.net.HttpURLConnection.HTTP_OK;
-
-public class CreateProfileAPIRunnable implements Runnable {
-
-    // The POST verb is most-often utilized to **create** new resources.
-
+public class LoginAPIRunnable implements Runnable {
     private static final String TAG = "myApp";
-    private final CreateProfileActivity createProfileActivity;
+    private final MainActivity mainActivity;
     private final Profile profile;
     private final String apiKey;
     private static final String baseURL = "http://www.christopherhield.org/api/";
-    private static final String endPoint = "Profile/CreateProfile";
+    private static final String endPoint = "Profile/Login";
 
-    CreateProfileAPIRunnable(CreateProfileActivity createProfileActivity, Profile profile, String apiKey) {
-        this.createProfileActivity = createProfileActivity;
+    LoginAPIRunnable(MainActivity mainActivity, Profile profile, String apiKey) {
+        this.mainActivity = mainActivity;
         this.profile = profile;
         this.apiKey = apiKey;
     }
@@ -42,29 +34,18 @@ public class CreateProfileAPIRunnable implements Runnable {
 
             Log.d(TAG, "run: Initial URL: " + urlString);
 
-            buildURL.appendQueryParameter("firstName", profile.getFirstName());
-            buildURL.appendQueryParameter("lastName", profile.getLastName());
             buildURL.appendQueryParameter("userName", profile.getUserName());
-            buildURL.appendQueryParameter("department", profile.getDepartment());
-            buildURL.appendQueryParameter("story", profile.getStory());
-            buildURL.appendQueryParameter("position", profile.getPosition());
             buildURL.appendQueryParameter("password", profile.getPassword());
-            buildURL.appendQueryParameter("remainingPointsToAward", String.valueOf(profile.getRemainingPointsToAward()));
-            buildURL.appendQueryParameter("location", profile.getLocation());
 
             String urlToUse = buildURL.build().toString();
             URL url = new URL(urlToUse);
 
             connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
+            connection.setRequestMethod("GET");
             connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             connection.setRequestProperty("Accept", "application/json");
             connection.setRequestProperty("ApiKey", apiKey);
             connection.connect();
-
-            OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
-            out.write(profile.getImageBytes());
-            out.close();
 
             int responseCode = connection.getResponseCode();
             Log.d(TAG, "responseCode: " + responseCode);
@@ -86,8 +67,7 @@ public class CreateProfileAPIRunnable implements Runnable {
                 }
             }
             Log.d(TAG, "run: get result:" + result.toString());
-            createProfileActivity.showResults(result.toString());
-            return;
+            MainActivity.loginWithProfile(result.toString());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -102,6 +82,5 @@ public class CreateProfileAPIRunnable implements Runnable {
                 }
             }
         }
-        createProfileActivity.showResults("Error performing POST request");
     }
 }

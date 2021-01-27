@@ -12,7 +12,7 @@ public class Profile {
     private String password;
     private String location;
     private String imageBytes;
-    private int remainingPointsToAward = 800;
+    private int remainingPointsToAward = 1000;
     private JSONArray rewardRecordViews;
 
     public String getFirstName() {

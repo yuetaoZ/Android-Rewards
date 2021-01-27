@@ -32,6 +32,10 @@ public class MainActivity extends AppCompatActivity {
     private static final String APIKEY_SAVED = "APIKEYSaved";
 
 
+    public static void loginWithProfile(String toString) {
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
