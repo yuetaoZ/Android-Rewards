@@ -67,7 +67,7 @@ public class LoginAPIRunnable implements Runnable {
                 }
             }
 
-            MainActivity.loginWithProfile(result.toString());
+            MainActivity.loadProfile(result.toString());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

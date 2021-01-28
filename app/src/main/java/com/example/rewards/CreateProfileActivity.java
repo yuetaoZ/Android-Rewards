@@ -1,7 +1,9 @@
 package com.example.rewards;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -15,15 +17,17 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Objects;
 
 public class CreateProfileActivity extends AppCompatActivity {
-    private static final int REQUEST_CODE = 1;
     private static final String TAG = "myApp Rewards";
+    private static final int PICK_FROM_GALLERY = 1;
     private static Bitmap bitmap;
     private static String apiKey, strSelectUserName, strSelectUPassword, strProfileFirstName,
             strProfileLastName, strDepartmentName, strPositionTitle, strStoryContent;
@@ -42,20 +46,46 @@ public class CreateProfileActivity extends AppCompatActivity {
     }
 
     private void setupClickForImageView() {
-        ImageView profileImage = findViewById(R.id.profileImage);
-        profileImage.setOnClickListener(v -> {
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_CODE);
+
+        ImageView ChoosePhoto = findViewById(R.id.profileImage);
+        ChoosePhoto.setOnClickListener(v -> {
+            try {
+                if (ActivityCompat.checkSelfPermission(CreateProfileActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(CreateProfileActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PICK_FROM_GALLERY);
+                } else {
+                    Intent intent = new Intent();
+                    intent.setType("image/*");
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_FROM_GALLERY);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
+        Log.d(TAG, "Got permission from request with requestCode:" + requestCode);
+        if (requestCode == PICK_FROM_GALLERY) {// If request is cancelled, the result arrays are empty.
+            Log.d(TAG, "Got requestResult: " + grantResults[0]);
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.d(TAG, "Got permission from request.");
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_FROM_GALLERY);
+            }
+
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         try {
-            if (requestCode == REQUEST_CODE) {
+            if (requestCode == PICK_FROM_GALLERY) {
                 if (resultCode == Activity.RESULT_OK) {
                     Uri imageUri = data.getData();
                     bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);

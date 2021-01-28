@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String APIKEY = "studentAPIKey";
     private static final String APIKEY_SAVED = "APIKEYSaved";
 
-    public static void loginWithProfile(String s) {
+    public static void loadProfile(String s) {
         Log.d(TAG, "Login Result: " + s);
     }
 
