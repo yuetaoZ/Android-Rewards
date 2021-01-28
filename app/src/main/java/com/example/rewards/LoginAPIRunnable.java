@@ -1,5 +1,6 @@
 package com.example.rewards;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 
@@ -67,7 +68,7 @@ public class LoginAPIRunnable implements Runnable {
                 }
             }
 
-            MainActivity.loadProfile(result.toString());
+            loadProfile(result.toString());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -82,5 +83,11 @@ public class LoginAPIRunnable implements Runnable {
                 }
             }
         }
+    }
+
+    private void loadProfile(String s) {
+        Intent intent = new Intent(mainActivity.getApplicationContext(), ShowProfileActivity.class);
+        intent.putExtra("profileInfo", s);
+        mainActivity.startActivity(intent);
     }
 }

@@ -45,6 +45,16 @@ public class CreateProfileActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_save, menu);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setLogo(R.drawable.icon);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+        setTitle("Create Profile");
+        return super.onCreateOptionsMenu(menu);
+    }
+
     private void setupClickForImageView() {
 
         ImageView ChoosePhoto = findViewById(R.id.profileImage);
@@ -102,15 +112,6 @@ public class CreateProfileActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.e(TAG, "Exception in onActivityResult : " + e.getMessage());
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_create_profile, menu);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setLogo(R.drawable.icon);
-        getSupportActionBar().setDisplayUseLogoEnabled(true);
-        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/preferenceProfileBtn"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="@string/preference"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/saveProfileBtn"
+        android:icon="@android:drawable/ic_menu_edit"
+        android:title="@string/edit"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/displayLeaderBoardBtn"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:title="@string/leader_board"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/deleteProfileBtn"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="@string/delete"
+        app:showAsAction="ifRoom" />
+</menu>

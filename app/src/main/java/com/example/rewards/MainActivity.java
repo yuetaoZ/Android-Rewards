@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -19,7 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "myApp";
     public static final String EXTRA_APIKEY = "";
     private String APIFirstName = "";
     private String APILastName = "";
@@ -39,10 +37,6 @@ public class MainActivity extends AppCompatActivity {
     private static final String APIKEY = "studentAPIKey";
     private static final String APIKEY_SAVED = "APIKEYSaved";
 
-    public static void loadProfile(String s) {
-        Log.d(TAG, "Login Result: " + s);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,11 +54,11 @@ public class MainActivity extends AppCompatActivity {
     private void setupCreateProfileButton() {
         Button createProfileButton = findViewById(R.id.createProfileButton);
         createProfileButton.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, CreateProfileActivity.class);
             loadData();
             if (APIKey.equals("")) {
                 setupAPI_Dialog();
             } else {
+                Intent intent = new Intent(MainActivity.this, CreateProfileActivity.class);
                 intent.putExtra(EXTRA_APIKEY, APIKey);
                 startActivity(intent);
             }
@@ -116,8 +110,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupTextWatcherForEditTexts() {
-        final EditText Eusername = findViewById(R.id.editTextUsername);
-        Eusername.addTextChangedListener(new TextWatcher() {
+        final EditText editUsername = findViewById(R.id.editTextUsername);
+        editUsername.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -128,12 +122,12 @@ public class MainActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(USERNAME, Eusername.getText().toString());
+                editor.putString(USERNAME, editUsername.getText().toString());
                 editor.apply();
             }
         });
-        final EditText Epassword = findViewById(R.id.editTextPassword);
-        Epassword.addTextChangedListener(new TextWatcher() {
+        final EditText editPassword = findViewById(R.id.editTextPassword);
+        editPassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -144,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(PASSWORD, Epassword.getText().toString());
+                editor.putString(PASSWORD, editPassword.getText().toString());
                 editor.apply();
             }
         });

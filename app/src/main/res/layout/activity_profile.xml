@@ -17,6 +17,7 @@
             android:layout_marginTop="16dp"
             android:text="@string/FullName"
             android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,7 +41,7 @@
             app:layout_constraintTop_toBottomOf="@+id/profileActName" />
 
         <TextView
-            android:id="@+id/profileActAward"
+            android:id="@+id/profileActAwarded"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -59,7 +60,7 @@
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/profileActAwardTitle"
-            app:layout_constraintTop_toBottomOf="@+id/profileActAward" />
+            app:layout_constraintTop_toBottomOf="@+id/profileActAwarded" />
 
         <TextView
             android:id="@+id/profileActPointsToAwardTitle"
