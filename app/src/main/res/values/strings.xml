@@ -36,4 +36,16 @@
     <string name="rewardPositionTitle">Position:</string>
     <string name="rewardDepartment">department</string>
     <string name="rewardPosition">position</string>
+    <string name="FullName">FullName</string>
+    <string name="location">Location</string>
+    <string name="num">num</string>
+    <string name="position">Position:</string>
+    <string name="points_to_award">Points to Award:</string>
+    <string name="your_story">Your Story:</string>
+    <string name="points">Points</string>
+    <string name="reward_history">Reward History (0):</string>
+    <string name="story_content">storyContent</string>
+    <string name="profile_position">Position</string>
+    <string name="points_awarded">Points Awarded:</string>
+    <string name="profile_act_image">ProfileActImage</string>
 </resources>

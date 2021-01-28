@@ -190,7 +190,7 @@ public class CreateProfileActivity extends AppCompatActivity {
     private boolean validateInputs() {
         boolean checkUsername, checkPassword, checkFirstname, checkLastname, checkDepartment,
                 checkPosition, checkStoryContent;
-        EditText selectUserName = findViewById(R.id.selectUsername);
+        EditText selectUserName = findViewById(R.id.profileUsername);
         strSelectUserName = selectUserName.getText().toString();
 
         if (TextUtils.isEmpty(strSelectUserName)) {
@@ -203,7 +203,7 @@ public class CreateProfileActivity extends AppCompatActivity {
             checkUsername = true;
         }
 
-        EditText selectUPassword = findViewById(R.id.selectPassword);
+        EditText selectUPassword = findViewById(R.id.profilePassword);
         strSelectUPassword = selectUPassword.getText().toString();
 
         if (TextUtils.isEmpty(strSelectUPassword)) {
@@ -242,7 +242,7 @@ public class CreateProfileActivity extends AppCompatActivity {
             checkLastname = true;
         }
 
-        EditText departmentName = findViewById(R.id.departmentName);
+        EditText departmentName = findViewById(R.id.profileDepartment);
         strDepartmentName = departmentName.getText().toString();
 
         if (TextUtils.isEmpty(strDepartmentName)) {

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/profileActName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/FullName"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/profileActUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:text="@string/Username"
+            app:layout_constraintBottom_toBottomOf="@+id/profileActName"
+            app:layout_constraintStart_toEndOf="@+id/profileActName" />
+
+        <TextView
+            android:id="@+id/profileActLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/location"
+            app:layout_constraintStart_toStartOf="@+id/profileActName"
+            app:layout_constraintTop_toBottomOf="@+id/profileActName" />
+
+        <TextView
+            android:id="@+id/profileActAward"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/num"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/profileActAwardTitle"
+            app:layout_constraintTop_toBottomOf="@+id/profileActAwardTitle" />
+
+        <TextView
+            android:id="@+id/profileActPositionTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/position"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/profileActAwardTitle"
+            app:layout_constraintTop_toBottomOf="@+id/profileActAward" />
+
+        <TextView
+            android:id="@+id/profileActPointsToAwardTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/points_to_award"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/profileActAwardTitle"
+            app:layout_constraintTop_toBottomOf="@+id/profileActPosition" />
+
+        <TextView
+            android:id="@+id/profileActStoryTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/your_story"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/profileActImage"
+            app:layout_constraintTop_toBottomOf="@+id/profileActImage" />
+
+        <TextView
+            android:id="@+id/profileActPointsToAward"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/points"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="@+id/profileActAwardTitle"
+            app:layout_constraintTop_toBottomOf="@+id/profileActPointsToAwardTitle" />
+
+        <TextView
+            android:id="@+id/profileActRewardHistoryTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/reward_history"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/profileActStoryTitle"
+            app:layout_constraintTop_toBottomOf="@+id/profileActStory" />
+
+        <TextView
+            android:id="@+id/profileActStory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/story_content"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="@+id/profileActStoryTitle"
+            app:layout_constraintTop_toBottomOf="@+id/profileActStoryTitle" />
+
+        <TextView
+            android:id="@+id/profileActPosition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/profile_position"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="@+id/profileActAwardTitle"
+            app:layout_constraintTop_toBottomOf="@+id/profileActPositionTitle" />
+
+        <TextView
+            android:id="@+id/profileActAwardTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/points_awarded"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/profileActImage"
+            app:layout_constraintTop_toBottomOf="@+id/profileActLocation" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="291dp"
+            android:layout_height="49dp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="@+id/profileActRewardHistoryTitle"
+            app:layout_constraintTop_toBottomOf="@+id/profileActRewardHistoryTitle" />
+
+        <ImageView
+            android:id="@+id/profileActImage"
+            android:layout_width="180dp"
+            android:layout_height="210dp"
+            android:layout_marginTop="20dp"
+            android:contentDescription="@string/profile_act_image"
+            app:layout_constraintStart_toStartOf="@+id/profileActName"
+            app:layout_constraintTop_toBottomOf="@+id/profileActLocation"
+            app:srcCompat="@drawable/default_photo" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
