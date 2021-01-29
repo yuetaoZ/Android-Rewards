@@ -195,7 +195,6 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     public void showResults(String s) {
-        String message;
         if (!s.equals("Error performing POST request")) {
             runOnUiThread(() -> new AlertDialog.Builder(this)
                     .setTitle("Update Profile")

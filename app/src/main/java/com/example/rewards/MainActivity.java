@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String APIKEY = "studentAPIKey";
     private static final String APIKEY_SAVED = "APIKEYSaved";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -296,5 +297,14 @@ public class MainActivity extends AppCompatActivity {
         APIKey = apiKey;
         saveData();
         showAPISuccessDialog();
+    }
+
+    public void showLoginError(String s) {
+        runOnUiThread(() -> new AlertDialog.Builder(this)
+                .setTitle("Login Failed")
+                .setMessage(s)
+                .setIcon(R.drawable.logo)
+                .setPositiveButton("OK", null)
+                .show());
     }
 }
