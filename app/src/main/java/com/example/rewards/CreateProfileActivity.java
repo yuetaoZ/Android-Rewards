@@ -9,13 +9,16 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -42,7 +45,28 @@ public class CreateProfileActivity extends AppCompatActivity {
         apiKey = intent.getStringExtra(MainActivity.EXTRA_APIKEY);
 
         setupClickForImageView();
+        setupTextWatcherForStory();
+    }
 
+    private void setupTextWatcherForStory() {
+        EditText story = findViewById(R.id.storyContent);
+        TextView storyTitle = findViewById(R.id.storyTitle);
+        final String[] title = new String[1];
+        story.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                title[0] = "Your Story: (" + s.length() + " of 360)";
+                storyTitle.setText(title[0]);
+            }
+        });
     }
 
     @Override
@@ -275,7 +299,7 @@ public class CreateProfileActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(strStoryContent)) {
             storyContent.setError("This item can not be empty.");
             checkStoryContent = false;
-        } else if (strPositionTitle.length() > 360) {
+        } else if (strStoryContent.length() > 360) {
             storyContent.setError("This item can not be longer than 360 character.");
             checkStoryContent = false;
         } else {
