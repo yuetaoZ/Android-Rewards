@@ -49,7 +49,6 @@ public class LoginAPIRunnable implements Runnable {
             connection.connect();
 
             int responseCode = connection.getResponseCode();
-            Log.d(TAG, "responseCode: " + responseCode);
             StringBuilder result = new StringBuilder();
 
             if (responseCode == HttpURLConnection.HTTP_OK) {

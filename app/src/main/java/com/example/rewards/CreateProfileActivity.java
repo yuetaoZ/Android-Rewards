@@ -161,7 +161,7 @@ public class CreateProfileActivity extends AppCompatActivity {
         } else {
             message = s;
         }
-        Log.i(TAG, "showResults called");
+
         runOnUiThread(() -> new AlertDialog.Builder(this)
                 .setTitle("Create Profile")
                 .setMessage(message)

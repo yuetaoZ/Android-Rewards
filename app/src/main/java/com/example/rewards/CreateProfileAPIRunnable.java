@@ -67,7 +67,6 @@ public class CreateProfileAPIRunnable implements Runnable {
             out.close();
 
             int responseCode = connection.getResponseCode();
-            Log.d(TAG, "responseCode: " + responseCode);
             StringBuilder result = new StringBuilder();
 
             if (responseCode == HttpURLConnection.HTTP_CREATED) {
@@ -85,7 +84,7 @@ public class CreateProfileAPIRunnable implements Runnable {
                     result.append(line).append("\n");
                 }
             }
-            Log.d(TAG, "run: get result:" + result.toString());
+
             createProfileActivity.showResults(result.toString());
             return;
         } catch (Exception e) {
