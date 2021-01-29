@@ -5,7 +5,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,8 +18,9 @@ import org.json.JSONObject;
 
 import java.util.Objects;
 
-public class ShowProfileActivity extends AppCompatActivity  {
-    private final Profile profile = new Profile();
+public class ShowProfileActivity extends AppCompatActivity {
+    private static final Profile profile = new Profile();
+    private static String profileInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,11 +28,23 @@ public class ShowProfileActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_profile);
 
         Intent intent = getIntent();
-        String profileInfo = intent.getStringExtra("profileInfo");
+        profileInfo = intent.getStringExtra("profileInfo");
 
         loadProfileInfo(profileInfo);
-        displayProfileContnet();
+        displayProfileContent();
         displayProfileImage();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.editProfileBtn) {
+            Intent intent = new Intent(getApplicationContext(), EditProfileActivity.class);
+            intent.putExtra("profileInfo", profileInfo);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void displayProfileImage() {
@@ -41,7 +56,7 @@ public class ShowProfileActivity extends AppCompatActivity  {
         profileActImage.setImageBitmap(decodedByte);
     }
 
-    private void displayProfileContnet() {
+    private void displayProfileContent() {
         int pointsAwarded = 0;
         int numOfRecords = 0;
         String recordTitle;

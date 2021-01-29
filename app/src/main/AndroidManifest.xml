@@ -20,7 +20,11 @@
         <activity android:name=".CreateProfileActivity"
             android:parentActivityName=".MainActivity">
         </activity>
-        <activity android:name=".ShowProfileActivity">
+        <activity android:name=".ShowProfileActivity"
+            android:launchMode="singleTop">
+        </activity>
+        <activity android:name=".EditProfileActivity"
+            android:parentActivityName=".ShowProfileActivity">
         </activity>
         <activity android:name=".MainActivity">
             <intent-filter>

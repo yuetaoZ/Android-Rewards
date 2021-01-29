@@ -80,7 +80,6 @@ public class CreateProfileActivity extends AppCompatActivity {
     }
 
     private void setupClickForImageView() {
-
         ImageView ChoosePhoto = findViewById(R.id.profileImage);
         ChoosePhoto.setOnClickListener(v -> {
             try {

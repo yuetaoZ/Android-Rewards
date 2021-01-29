@@ -2,6 +2,7 @@ package com.example.rewards;
 
 import org.json.JSONArray;
 
+
 public class Profile {
     private String firstName;
     private String lastName;

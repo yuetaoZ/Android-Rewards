@@ -13,7 +13,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:autofillHints="@string/selectUserName"
-        android:background="#ECEAEA"
+        android:background="#EDECEC"
         android:gravity="center_vertical"
         android:hint="@string/selectUserName"
         android:maxLength="20"
