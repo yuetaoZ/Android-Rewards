@@ -2,6 +2,7 @@ package com.example.rewards;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,13 +10,13 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -26,6 +27,15 @@ import java.util.Objects;
 
 public class EditProfileActivity extends AppCompatActivity {
     private static final int PICK_FROM_GALLERY = 1;
+    private static final Profile profile = new Profile();
+    private static final String SHARED_PREFS = "sharedPrefs";
+    private static String apiKey;
+
+    private TextView editProfileUsername, editStoryTitle;
+    private EditText editProfilePassword, editProfileFirstName, editProfileLastName,
+            editProfileDepartment, editPositionTitle, editStoryContent;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,14 +45,27 @@ public class EditProfileActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String profileInfo = intent.getStringExtra("profileInfo");
 
+        initialFields();
         Profile profile = createProfile(profileInfo);
         loadProfile(profile);
         setupTextWatcherForStory();
         setupClickForImageView();
     }
 
+    private void initialFields() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        apiKey = sharedPreferences.getString("studentAPIKey", "");
+        editProfileUsername = findViewById(R.id.editProfileUsername);
+        editProfilePassword = findViewById(R.id.editProfilePassword);
+        editProfileFirstName = findViewById(R.id.editProfileFirstName);
+        editProfileLastName = findViewById(R.id.editProfileLastName);
+        editProfileDepartment = findViewById(R.id.editProfileDepartment);
+        editPositionTitle = findViewById(R.id.editPositionTitle);
+        editStoryTitle = findViewById(R.id.editStoryTitle);
+        editStoryContent = findViewById(R.id.editStoryContent);
+    }
+
     private Profile createProfile(String profileInfo) {
-        Profile profile = new Profile();
         JSONObject jObjMain;
 
         try {
@@ -121,15 +144,6 @@ public class EditProfileActivity extends AppCompatActivity {
     private void loadTexts(Profile profile) {
         String storyTitle, story;
 
-        TextView editProfileUsername = findViewById(R.id.editProfileUsername);
-        EditText editProfilePassword = findViewById(R.id.editProfilePassword);
-        EditText editProfileFirstName = findViewById(R.id.editProfileFirstName);
-        EditText editProfileLastName = findViewById(R.id.editProfileLastName);
-        EditText editProfileDepartment = findViewById(R.id.editProfileDepartment);
-        EditText editPositionTitle = findViewById(R.id.editPositionTitle);
-        TextView editStoryTitle = findViewById(R.id.editStoryTitle);
-        EditText editStoryContent = findViewById(R.id.editStoryContent);
-
         editProfileUsername.setText(profile.getUserName());
         editProfilePassword.setText(profile.getPassword());
         editProfileFirstName.setText(profile.getFirstName());
@@ -157,12 +171,45 @@ public class EditProfileActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.saveButton) {
-            updateProfile();
+            runOnUiThread(() -> new AlertDialog.Builder(this)
+                    .setTitle("Save Changes?")
+                    .setIcon(R.drawable.logo)
+                    .setPositiveButton("OK", (dialog, which) -> updateProfile())
+                    .setNegativeButton("CANCEL", null)
+                    .show());
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void updateProfile() {
+        saveChanges();
+        new Thread(new UpdateProfileAPIRunnable(this, profile, apiKey)).start();
     }
 
+    private void saveChanges() {
+        profile.setPassword(editProfilePassword.getText().toString());
+        profile.setFirstName(editProfileFirstName.getText().toString());
+        profile.setLastName(editProfileLastName.getText().toString());
+        profile.setDepartment(editProfileDepartment.getText().toString());
+        profile.setStory(editStoryContent.getText().toString());
+    }
+
+    public void showResults(String s) {
+        String message;
+        if (!s.equals("Error performing POST request")) {
+            runOnUiThread(() -> new AlertDialog.Builder(this)
+                    .setTitle("Update Profile")
+                    .setMessage("Profile update succeed.")
+                    .setIcon(R.drawable.logo)
+                    .setPositiveButton("OK", null)
+                    .show());
+        } else {
+            runOnUiThread(() -> new AlertDialog.Builder(this)
+                    .setTitle("Update Profile")
+                    .setMessage(s)
+                    .setIcon(R.drawable.logo)
+                    .setPositiveButton("OK", null)
+                    .show());
+        }
+    }
 }

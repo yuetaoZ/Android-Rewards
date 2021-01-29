@@ -10,19 +10,16 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class CreateProfileAPIRunnable implements Runnable {
-
-    // The POST verb is most-often utilized to **create** new resources.
-
+public class UpdateProfileAPIRunnable implements Runnable {
     private static final String TAG = "myApp";
-    private final CreateProfileActivity createProfileActivity;
     private final Profile profile;
     private final String apiKey;
-    private static final String baseURL = "http://www.christopherhield.org/api/";
-    private static final String endPoint = "Profile/CreateProfile";
+    private final EditProfileActivity editProfileActivity;
+    private static final String baseURL = "http://www.christopherhield.org/api";
+    private static final String endPoint = "/Profile/UpdateProfile";
 
-    CreateProfileAPIRunnable(CreateProfileActivity createProfileActivity, Profile profile, String apiKey) {
-        this.createProfileActivity = createProfileActivity;
+    public UpdateProfileAPIRunnable(EditProfileActivity editProfileActivity, Profile profile, String apiKey) {
+        this.editProfileActivity = editProfileActivity;
         this.profile = profile;
         this.apiKey = apiKey;
     }
@@ -52,7 +49,7 @@ public class CreateProfileAPIRunnable implements Runnable {
             URL url = new URL(urlToUse);
 
             connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
+            connection.setRequestMethod("PUT");
             connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             connection.setRequestProperty("Accept", "application/json");
             connection.setRequestProperty("ApiKey", apiKey);
@@ -65,7 +62,7 @@ public class CreateProfileAPIRunnable implements Runnable {
             int responseCode = connection.getResponseCode();
             StringBuilder result = new StringBuilder();
 
-            if (responseCode == HttpURLConnection.HTTP_CREATED) {
+            if (responseCode == HttpURLConnection.HTTP_OK) {
                 reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
                 String line;
@@ -81,7 +78,7 @@ public class CreateProfileAPIRunnable implements Runnable {
                 }
             }
 
-            createProfileActivity.showResults(result.toString());
+            editProfileActivity.showResults(result.toString());
             return;
         } catch (Exception e) {
             e.printStackTrace();
@@ -97,6 +94,6 @@ public class CreateProfileAPIRunnable implements Runnable {
                 }
             }
         }
-        createProfileActivity.showResults("Error performing POST request");
+        editProfileActivity.showResults("Error performing POST request");
     }
 }
