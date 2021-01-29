@@ -1,8 +1,12 @@
 package com.example.rewards;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.Menu;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,14 +28,24 @@ public class ShowProfileActivity extends AppCompatActivity  {
         String profileInfo = intent.getStringExtra("profileInfo");
 
         loadProfileInfo(profileInfo);
-        showProfileOnActivity();
+        displayProfileContnet();
+        displayProfileImage();
     }
 
-    private void showProfileOnActivity() {
+    private void displayProfileImage() {
+        String imageString64 = profile.getImageBytes();
+        byte[] decodedString = Base64.decode(imageString64, Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+        ImageView profileActImage = findViewById(R.id.profileActImage);
+        profileActImage.setImageBitmap(decodedByte);
+    }
+
+    private void displayProfileContnet() {
         int pointsAwarded = 0;
         int numOfRecords = 0;
         String recordTitle;
-        String fullName;
+        String fullName, userName;
 
         TextView profileActName = findViewById(R.id.profileActName);
         TextView profileActUserName = findViewById(R.id.profileActUserName);
@@ -44,7 +58,8 @@ public class ShowProfileActivity extends AppCompatActivity  {
 
         fullName = profile.getFirstName() + ", " + profile.getLastName();
         profileActName.setText(fullName);
-        profileActUserName.setText(profile.getUserName());
+        userName = "(" + profile.getUserName() + ")";
+        profileActUserName.setText(userName);
         profileActLocation.setText(profile.getLocation());
         profileActAwarded.setText(String.valueOf(pointsAwarded));
         profileActPosition.setText(profile.getPosition());
