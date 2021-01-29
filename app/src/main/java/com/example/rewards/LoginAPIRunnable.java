@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 
-import androidx.appcompat.app.AlertDialog;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -52,7 +50,6 @@ public class LoginAPIRunnable implements Runnable {
 
             int responseCode = connection.getResponseCode();
             StringBuilder result = new StringBuilder();
-            Log.d("myApp", "Response code after login: " + responseCode);
 
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -71,7 +68,6 @@ public class LoginAPIRunnable implements Runnable {
                 }
                 mainActivity.showLoginError(result.toString());
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

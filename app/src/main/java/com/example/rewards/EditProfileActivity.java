@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Base64;
 import android.view.Menu;
@@ -182,8 +183,10 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private void updateProfile() {
-        saveChanges();
-        new Thread(new UpdateProfileAPIRunnable(this, profile, apiKey)).start();
+        if (validateInputs()) {
+            saveChanges();
+            new Thread(new UpdateProfileAPIRunnable(this, profile, apiKey)).start();
+        }
     }
 
     private void saveChanges() {
@@ -200,7 +203,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     .setTitle("Update Profile")
                     .setMessage("Profile update succeed.")
                     .setIcon(R.drawable.logo)
-                    .setPositiveButton("OK", null)
+                    .setPositiveButton("OK", (dialog1, which) -> updateProfile(s))
                     .show());
         } else {
             runOnUiThread(() -> new AlertDialog.Builder(this)
@@ -211,4 +214,103 @@ public class EditProfileActivity extends AppCompatActivity {
                     .show());
         }
     }
+
+    private void updateProfile(String s) {
+        Intent intent = new Intent(this, ShowProfileActivity.class);
+        intent.putExtra("profileInfo", s);
+        startActivity(intent);
+    }
+
+    private boolean validateInputs() {
+        boolean checkUsername, checkPassword, checkFirstname, checkLastname, checkDepartment,
+                checkPosition, checkStoryContent;
+        String strEditProfileUsername = editProfileUsername.getText().toString();
+
+        if (TextUtils.isEmpty(strEditProfileUsername)) {
+            editProfileUsername.setError("This item can not be empty.");
+            checkUsername = false;
+        } else if (strEditProfileUsername.length() > 20) {
+            editProfileUsername.setError("This item can not be longer than 20 character.");
+            checkUsername = false;
+        } else {
+            checkUsername = true;
+        }
+
+        String strEditProfilePassword = editProfilePassword.getText().toString();
+
+        if (TextUtils.isEmpty(strEditProfilePassword)) {
+            editProfilePassword.setError("This item can not be empty.");
+            checkPassword = false;
+        } else if (strEditProfilePassword.length() > 40) {
+            editProfilePassword.setError("This item can not be longer than 40 character.");
+            checkPassword = false;
+        } else {
+            checkPassword = true;
+        }
+
+        String strEditProfileFirstName = editProfileFirstName.getText().toString();
+
+        if (TextUtils.isEmpty(strEditProfileFirstName)) {
+            editProfileFirstName.setError("This item can not be empty.");
+            checkFirstname = false;
+        } else if (strEditProfileFirstName.length() > 20) {
+            editProfileFirstName.setError("This item can not be longer than 20 character.");
+            checkFirstname = false;
+        } else {
+            checkFirstname = true;
+        }
+
+        String strEditProfileLastName = editProfileLastName.getText().toString();
+
+        if (TextUtils.isEmpty(strEditProfileLastName)) {
+            editProfileLastName.setError("This item can not be empty.");
+            checkLastname = false;
+        } else if (strEditProfileLastName.length() > 20) {
+            editProfileLastName.setError("This item can not be longer than 20 character.");
+            checkLastname = false;
+        } else {
+            checkLastname = true;
+        }
+
+        String strEditProfileDepartment = editProfileDepartment.getText().toString();
+
+        if (TextUtils.isEmpty(strEditProfileDepartment)) {
+            editProfileDepartment.setError("This item can not be empty.");
+            checkDepartment = false;
+        } else if (strEditProfileDepartment.length() > 30) {
+            editProfileDepartment.setError("This item can not be longer than 30 character.");
+            checkDepartment = false;
+        } else {
+            checkDepartment = true;
+        }
+
+        String strEditPositionTitle = editPositionTitle.getText().toString();
+
+        if (TextUtils.isEmpty(strEditPositionTitle)) {
+            editPositionTitle.setError("This item can not be empty.");
+            checkPosition = false;
+        } else if (strEditPositionTitle.length() > 20) {
+            editPositionTitle.setError("This item can not be longer than 20 character.");
+            checkPosition = false;
+        } else {
+            checkPosition = true;
+        }
+
+
+        String strEditStoryContent = editStoryContent.getText().toString();
+
+        if (TextUtils.isEmpty(strEditStoryContent)) {
+            editStoryContent.setError("This item can not be empty.");
+            checkStoryContent = false;
+        } else if (strEditStoryContent.length() > 360) {
+            editStoryContent.setError("This item can not be longer than 360 character.");
+            checkStoryContent = false;
+        } else {
+            checkStoryContent = true;
+        }
+
+        return checkUsername && checkPassword && checkFirstname && checkLastname && checkDepartment &&
+                checkPosition && checkStoryContent;
+    }
+
 }
